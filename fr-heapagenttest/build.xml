@@ -1,0 +1,41 @@
+<project name="fr-heapagenttest-build" default="run-gcminor">
+	<presetdef name="fr-javac">
+		<javac includeantruntime="false" debug="on" source="1.7" target="1.7" />
+	</presetdef>
+	<property name="src" value="${basedir}/src" />
+	<property name="lib" value="${basedir}/lib" />
+	<property name="build" value="${basedir}/build" />
+	<target name="compile">
+		<mkdir dir="${build}" />
+		<fr-javac srcdir="${src}" destdir="${build}">
+			<include name="**/*.java" />
+		</fr-javac>
+	</target>
+	<target name="run-empty" depends="compile">
+		<java classname="ch.usi.inf.sape.frheap.heaptests.empty.Empty" fork="yes" failonerror="yes">
+			<classpath location="${build}" />
+			<jvmarg value="-Xms" />
+		</java>
+	</target>
+	<target name="run-gcminor" depends="compile">
+		<java classname="ch.usi.inf.sape.frheap.heaptests.gcminor.GcMinor" fork="yes" failonerror="yes">
+			<classpath location="${build}" />
+			<jvmarg value="-Xms256m" />
+			<jvmarg value="-Xmx256m" />
+			<jvmarg value="-XX:+PrintGC" />
+			<jvmarg value="-XX:+PrintGCDetails" />
+		</java>
+	</target>
+	<target name="run-gcmajor" depends="compile">
+		<java classname="ch.usi.inf.sape.frheap.heaptests.gcmajor.GcMajor" fork="yes" failonerror="yes">
+			<classpath location="${build}" />
+			<jvmarg value="-Xms64m" />
+			<jvmarg value="-Xmx1024m" />
+			<jvmarg value="-XX:+PrintGC" />
+			<jvmarg value="-XX:+PrintGCDetails" />
+		</java>
+	</target>
+	<target name="clean">
+		<delete dir="${build}" />
+	</target>
+</project>

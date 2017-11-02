@@ -1,0 +1,12 @@
+.DS_Store
+Makefile.local
+build/*.c.o
+build/*.cpp.o
+build/*.c
+build/*.jnilib
+build/**.class
+build/**.disasm
+
+db/*.log
+
+bin/**.class
